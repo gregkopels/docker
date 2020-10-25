@@ -1,2 +1,27 @@
 Docker Cheat Sheet
 
+curl -sSL https://get.docker.com/ | sh
+
+sudo usermod -aG docker your-user
+dockerd
+sudo systemctl start docker
+
+#Starting container
+docker container run --publish 80:80 --detach nginx
+docker container top
+docker container inspect
+docker container stats
+
+#Connecting to the container
+docker container run -it --name proxy nginx bash
+docker container run -it --name ubuntu ubuntu
+docker container exec 
+
+#MACVLAN
+docker network create -d macvlan --subnet=192.168.1.0/24 --gateway=192.168.1.254 -o parent=ens33.200 vlan200
+
+# Test Commands
+
+ docker run -it --rm --net=vlan200 --ip=192.168.1.25 --hostname vm_site1 centos ping 192.168.1.254 -c 5
+ docker run -it --rm --net=vlan200 --ip=192.168.1.25 --hostname vm_site1 centos traceroute 8.8.8.8
+ docker run -d --name=firefox --network=vlan200 --ip=192.168.1.45 -p 5800:5800 -v /docker/appdata/firefox:/config:rw --shm-size 2g jlesage/firefox
